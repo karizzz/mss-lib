@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BookDetails() {
     const { isbn } = useParams();
@@ -7,6 +8,7 @@ export default function BookDetails() {
     const [loading, setLoading] = useState(true);
     const [borrowed, setBorrowed] = useState(false);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:5001/api/books/${isbn}`)
@@ -39,7 +41,14 @@ export default function BookDetails() {
     if (!book) return <p>Book not found</p>;
 
     return (
+        
         <div className="card p-4 shadow-lg">
+             {/* Back Button at the Top */}
+        <div className="mb-3">
+            <button onClick={() => navigate(-1)} className="btn btn-secondary">
+                ← Back to Search
+            </button>
+        </div>
             <h2>{book.Title}</h2>
             <p><strong>Authors:</strong> {book.Authors || "Unknown"}</p>
             <p><strong>Publisher:</strong> {book.Publisher || "Unknown"}</p>
